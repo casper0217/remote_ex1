@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>별빛 벽돌깨기</title>
+  <link rel="stylesheet" href="brick_game.css">
+  <script src="brick_game.js" defer></script>
+</head>
+<body>
+  <main class="게임">
+    <header class="머리글">
+      <div>
+        <p class="작은제목">✦ 은하수 아케이드 ✦</p>
+        <h1>별빛 벽돌깨기</h1>
+        <p class="설명">오른쪽 수정 벽돌에서 돌아오는 혜성 공을 왼쪽 뱃살로 튕겨 보세요!</p>
+      </div>
+      <div class="조작안내" aria-label="게임 조작 방법">
+        <span>스페이스 시작</span>
+        <span>↑ ↓ 이동</span>
+        <span>마우스·손가락 위아래 이동</span>
+      </div>
+    </header>
+
+    <section class="정보줄" aria-label="게임 정보">
+      <div class="정보칸"><span class="정보이름">점수</span><strong id="점수">0</strong></div>
+      <div class="정보칸"><span class="정보이름">목숨</span><strong id="목숨">♥ ♥ ♥</strong></div>
+      <div class="정보칸"><span class="정보이름">단계</span><strong id="단계">1</strong></div>
+      <div class="정보칸"><span class="정보이름">콤보</span><strong id="콤보">이어 보세요!</strong></div>
+      <div class="정보칸 스킬칸"><span class="정보이름">스킬</span><strong id="스킬">없음</strong></div>
+    </section>
+
+    <section class="게임틀" aria-label="별빛 벽돌깨기 게임판">
+      <canvas id="게임판" aria-label="게임판 왼쪽의 뱃살 범퍼를 위아래로 움직여 공을 튕기세요."></canvas>
+    </section>
+
+    <footer class="아래안내">
+      <p id="상태안내" aria-live="polite">스페이스키를 눌러 혜성 공을 오른쪽으로 발사하세요.</p>
+      <button id="발사버튼" type="button">✨ 공 발사</button>
+    </footer>
+  </main>
+</body>
+</html>

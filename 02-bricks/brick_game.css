@@ -1,0 +1,45 @@
+:root {
+  font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+  color: #25233a;
+  background: #fff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+* { box-sizing: border-box; }
+body { min-width: 280px; min-height: 100vh; margin: 0; background: #fff; }
+.게임 { width: 100%; min-height: 100vh; padding: 14px 18px 10px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.머리글 { width: min(100%, 1220px); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.작은제목 { margin: 0 0 3px; color: #7759d6; font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
+h1 { margin: 0; color: #25233a; font-size: clamp(1.25rem, 3vw, 1.8rem); letter-spacing: -.04em; }
+.설명 { margin: 4px 0 0; color: #69667a; font-size: .88rem; }
+.조작안내 { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.조작안내 span { padding: 7px 10px; border: 1px solid #e8e2fa; border-radius: 999px; background: #fbfaff; color: #554a7d; font-size: .78rem; white-space: nowrap; }
+.정보줄 { width: min(100%, 1200px); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.정보칸 { min-height: 43px; padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; border: 1px solid #e9e5f2; border-radius: 10px; background: linear-gradient(135deg,#fff,#faf8ff); box-shadow: 0 3px 9px rgb(82 63 138 / 5%); }
+.정보이름 { color: #777287; font-size: .8rem; }
+.정보칸 strong { color: #302b48; font-size: .92rem; white-space: nowrap; }
+.스킬칸 strong { color: #7759d6; }
+#콤보 { color: #bc4f92; }
+.게임틀 { flex: 0 0 auto; display: grid; place-items: center; max-width: 100%; overflow: hidden; border: 1px solid #d8d0f4; border-radius: 10px; background: #10122e; box-shadow: 0 8px 26px rgb(69 48 132 / 19%), 0 0 0 4px rgb(176 156 244 / 10%); }
+canvas { display: block; background: #10122e; touch-action: none; }
+.아래안내 { width: min(100%, 1200px); min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.아래안내 p { margin: 0; color: #555167; font-size: .9rem; }
+button { min-height: 38px; padding: 0 15px; border: 0; border-radius: 9px; background: linear-gradient(135deg,#7454ce,#a34da8); color: #fff; font: inherit; font-size: .86rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgb(116 84 206 / 22%); }
+button:hover { filter: brightness(1.08); }
+button:focus-visible { outline: 3px solid #d6a9ff; outline-offset: 3px; }
+@media (max-width: 640px) {
+  .게임 { padding: 10px 10px 8px; gap: 8px; }
+  .머리글 { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .조작안내 { justify-content: flex-start; }
+  .조작안내 span { padding: 6px 8px; font-size: .72rem; }
+  .정보줄 { gap: 4px; }
+  .정보칸 { min-height: 40px; padding: 5px 6px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; }
+  .정보이름 { font-size: .66rem; }
+  .정보칸 strong { font-size: .75rem; }
+  .아래안내 p { font-size: .78rem; }
+}
+@media (max-height: 620px) and (min-width: 641px) {
+  .게임 { padding-top: 7px; gap: 5px; }
+  .설명 { display: none; }
+  .조작안내 span { padding: 5px 8px; }
+}

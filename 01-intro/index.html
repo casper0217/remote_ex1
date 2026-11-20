@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#bde9ef">
+  <title>개미와 베짱이의 잎사귀 무대</title>
+  <style>
+    :root {
+      --하늘: #bde9ef;
+      --잎: #66b84f;
+      --진한잎: #32884a;
+      --글자: #203d32;
+      --크림: #fff9e9;
+      --주황: #f29b55;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; padding: 28px 16px 40px;
+      background: var(--하늘); color: var(--글자);
+      font-family: "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+      transition: background-color 500ms ease;
+    }
+    .페이지 { width: min(100%, 900px); margin: 0 auto; }
+    .상단표식 { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; color: #276b64; font-size: .9rem; font-weight: 700; }
+    .딱지 { padding: 8px 13px; border: 1px solid rgba(39,107,100,.24); border-radius: 999px; background: rgba(255,255,255,.54); }
+    .제목영역 { position: relative; z-index: 2; text-align: center; }
+    h1 { margin: 0; color: #274638; font-size: clamp(3rem, 10vw, 6.4rem); line-height: .98; letter-spacing: -.075em; text-shadow: 0 4px 0 rgba(255,255,255,.42); }
+    h1 span { display: inline-block; color: #32864b; transform: rotate(-2deg); }
+    .부제 { width: fit-content; max-width: 90%; margin: 17px auto 0; padding: 9px 16px; border: 2px solid #4d8d45; border-radius: 18px; background: var(--크림); font-weight: 700; line-height: 1.5; transform: rotate(1deg); }
+    .무대 { position: relative; min-height: 450px; margin-top: -1px; overflow: hidden; border: 5px solid rgba(255,255,255,.65); border-radius: 42px; background: linear-gradient(#bcecf2 0 55%, #a9db75 55% 100%); box-shadow: 0 18px 40px rgba(44,105,77,.17); }
+    .구름 { position: absolute; width: 126px; height: 36px; border-radius: 99px; background: rgba(255,255,255,.76); }
+    .구름::before,.구름::after { content:""; position:absolute; bottom:8px; width:48px; height:48px; border-radius:50%; background:inherit; }
+    .구름::before { left:20px; } .구름::after { left:52px; width:58px; height:58px; }
+    .구름.하나 { top:52px; left:7%; transform:scale(.72); }
+    .구름.둘 { top:89px; right:9%; transform:scale(.55); }
+    .잎사귀 { position:absolute; top:118px; left:50%; width:min(76%,620px); height:220px; border:4px solid #439346; border-radius: 8% 92% 6% 94% / 12% 88% 12% 88%; background:radial-gradient(ellipse at 38% 25%,#b4e86d,#68bf4d 58%,#49a947); box-shadow: inset -14px -13px 0 rgba(34,128,62,.12), 0 15px 15px rgba(49,115,59,.16); transform:translateX(-50%) rotate(-7deg); }
+    .잎사귀::before { content:""; position:absolute; left:7%; top:52%; width:88%; height:4px; border-radius:9px; background:rgba(39,128,58,.65); transform:rotate(-10deg); }
+    .잎사귀::after { content:""; position:absolute; left:43%; top:21%; width:42%; height:2px; background:rgba(39,128,58,.42); transform:rotate(26deg); box-shadow: -28px 40px 0 rgba(39,128,58,.38), 35px 60px 0 rgba(39,128,58,.34), 30px -25px 0 rgba(39,128,58,.32); }
+    .장면말 { position:absolute; z-index:2; top:27px; left:50%; width:min(88%,470px); padding:12px 16px; border:2px solid #5b9447; border-radius:20px; background:var(--크림); text-align:center; font-weight:700; line-height:1.55; transform:translateX(-50%) rotate(-1deg); }
+    .캐릭터들 { position:absolute; z-index:3; inset:0; pointer-events:none; }
+    .캐릭터 { position:absolute; width:clamp(130px,27vw,220px); transition:left 150ms ease-out, top 150ms ease-out, bottom 450ms ease, transform 300ms ease; }
+    .무대 { touch-action:none; cursor:crosshair; }
+    .캐릭터들 { pointer-events:none; }
+    #베짱이캐릭터 { pointer-events:auto; cursor:pointer; }
+    .개미 { left:12%; bottom:30px; }
+    .베짱이 { right:11%; bottom:96px; width:clamp(145px,31vw,245px); }
+    .개미.달려 { left:49%; bottom:105px; transform:rotate(8deg) scale(1.08); }
+    .베짱이.깜짝 { transform:rotate(-8deg) translateY(-18px); }
+    .개미.때리는중 { animation: 개미툭치기 420ms ease-in-out; }
+    .베짱이.날아감 { animation: 베짱이날아감 1250ms cubic-bezier(.2,.8,.3,1) forwards; }
+    .충돌글자 { position:absolute; z-index:6; left:64%; top:42%; padding:7px 12px; border:3px solid #243d2e; border-radius:50%; background:#fff2a8; color:#9f452b; font-size:1.25rem; font-weight:900; transform:rotate(-12deg) scale(.3); opacity:0; pointer-events:none; }
+    .충돌글자.보임 { animation: 쾅글자 650ms ease-out forwards; }
+    @keyframes 개미툭치기 { 0%,100% { transform:rotate(0) scale(1); } 30% { transform:translateX(20px) rotate(-24deg) scale(1.12); } 60% { transform:translateX(5px) rotate(12deg); } }
+    @keyframes 베짱이날아감 { 0% { transform:translate(0,0) rotate(0) scale(1); opacity:1; } 18% { transform:translate(-15px,-24px) rotate(-35deg) scale(1.08); opacity:1; } 100% { transform:translate(240px,-190px) rotate(540deg) scale(.25); opacity:0; } }
+    @keyframes 쾅글자 { 0% { opacity:0; transform:rotate(-12deg) scale(.3); } 25% { opacity:1; transform:rotate(8deg) scale(1.25); } 100% { opacity:0; transform:rotate(-12deg) scale(.75) translateY(-14px); } }
+    .커서안내 { position:absolute; z-index:4; right:12px; bottom:10px; padding:7px 10px; border-radius:999px; background:rgba(255,249,233,.88); color:#31563c; font-size:.82rem; font-weight:700; pointer-events:none; }
+    .무대장식 { position:absolute; z-index:2; font-size:clamp(1.5rem,4vw,2.5rem); }
+    .딸기 { left:9%; bottom:105px; } .꽃 { right:7%; bottom:49px; } .반짝 { left:48%; bottom:66px; }
+    .캐릭터 svg { display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 8px 5px rgba(36,90,46,.18)); }
+    .소개카드 { position:relative; z-index:4; display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:-7px 18px 0; }
+    .종이상자 { padding:20px; border:2px solid #e6ddb9; border-radius:22px; background:var(--크림); box-shadow:0 8px 18px rgba(70,99,55,.1); }
+    .종이상자 h2 { margin:0 0 12px; font-size:1.15rem; }
+    .좋아하는것 { display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none; }
+    .좋아하는것 li { padding:8px 11px; border-radius:999px; background:#e3f1d7; font-weight:700; }
+    .대화 { margin:0; line-height:1.75; }
+    .대화 strong { color:#3f8549; }
+    .반응 { min-height:1.7em; margin:10px 0 0; color:#9b5629; font-weight:700; }
+    .놀이영역 { margin:18px 18px 0; padding:19px; border:2px dashed rgba(48,118,62,.35); border-radius:22px; background:rgba(255,255,255,.57); text-align:center; }
+    .놀이영역 p { margin:0 0 13px; line-height:1.65; }
+    .버튼들 { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
+    button { min-height:48px; padding:0 17px; border:0; border-radius:999px; background:#31864b; color:white; font:inherit; font-weight:800; cursor:pointer; box-shadow:0 4px 0 #22673a; transition:transform 130ms ease, background-color 130ms ease; }
+    button:hover { transform:translateY(-2px) rotate(-1deg); background:#267640; }
+    button:active { transform:translateY(2px); box-shadow:0 2px 0 #22673a; }
+    button:focus-visible { outline:3px solid #f29b55; outline-offset:3px; }
+    button.색상버튼 { background:#db793d; box-shadow:0 4px 0 #ad572d; }
+    .마지막인사 { margin:18px 0 0; text-align:center; color:#27634e; font-weight:700; }
+    @media(max-width:620px) {
+      body { padding:16px 10px 28px; }
+      .상단표식 { font-size:.78rem; }
+      .무대 { min-height:390px; border-radius:29px; }
+      .잎사귀 { top:139px; width:92%; height:170px; }
+      .장면말 { top:20px; font-size:.9rem; }
+      .개미 { left:4%; bottom:25px; }
+      .베짱이 { right:1%; bottom:88px; }
+      .개미.달려 { left:39%; bottom:100px; }
+      .소개카드 { grid-template-columns:1fr; margin-right:5px; margin-left:5px; }
+      .놀이영역 { margin-right:5px; margin-left:5px; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="페이지">
+    <div class="상단표식"><span class="딱지">🌼 오늘의 숲속 이야기</span><span class="딱지">가상 친구 소개</span></div>
+    <header class="제목영역">
+      <h1>개미와<br><span>베짱이!</span></h1>
+      <p class="부제">안녕! 나는 부지런한 장난꾸러기 개미야 🐜</p>
+    </header>
+
+    <section class="무대" aria-label="잎사귀 위에서 만난 개미와 베짱이">
+      <div class="구름 하나" aria-hidden="true"></div><div class="구름 둘" aria-hidden="true"></div>
+      <div class="잎사귀" aria-hidden="true"></div>
+      <div class="커서안내">🖱️ 움직여서 개미 조종 · 베짱이는 톡!</div>
+      <div class="충돌글자" id="충돌글자" aria-hidden="true">툭!</div>
+      <div class="장면말" id="장면말" aria-live="polite">베짱아, 낮잠 자는 사이 계절이 바뀌겠다!<br>슬슬 일어나 볼까? 😏</div>
+      <span class="무대장식 딸기" aria-hidden="true">🍓</span><span class="무대장식 꽃" aria-hidden="true">🌼</span><span class="무대장식 반짝" aria-hidden="true">✨</span>
+      <div class="캐릭터들">
+        <div class="캐릭터 개미" id="개미캐릭터" aria-label="작은 개미 캐릭터">
+          <svg viewBox="0 0 220 170" role="img" aria-label="초록 잎 위의 귀여운 개미">
+            <g stroke="#26352d" stroke-width="7" stroke-linecap="round" fill="none">
+              <path d="M83 98 54 75 35 74M89 112 57 128 41 145M121 107 148 126 164 145M126 92 155 75 173 79"/>
+              <path d="M93 57Q76 24 53 37M113 54Q122 20 146 28"/>
+            </g>
+            <ellipse cx="65" cy="103" rx="28" ry="24" fill="#cf3f38" stroke="#26352d" stroke-width="5"/>
+            <ellipse cx="111" cy="101" rx="24" ry="22" fill="#d94c3d" stroke="#26352d" stroke-width="5"/>
+            <circle cx="153" cy="82" r="34" fill="#d94c3d" stroke="#26352d" stroke-width="5"/>
+            <ellipse cx="164" cy="74" rx="9" ry="12" fill="white"/><ellipse cx="143" cy="74" rx="9" ry="12" fill="white"/>
+            <circle cx="166" cy="77" r="4" fill="#202d27"/><circle cx="142" cy="77" r="4" fill="#202d27"/>
+            <path d="M148 94q8 9 16 0" stroke="#26352d" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M35 100q-14-12-24 0M50 120q-15 7-18 19" stroke="#f4c95d" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <circle cx="59" cy="95" r="4" fill="#f6d46e"/><circle cx="72" cy="108" r="4" fill="#f6d46e"/>
+          </svg>
+        </div>
+        <div class="캐릭터 베짱이" id="베짱이캐릭터" aria-label="AI 안경을 쓰고 기타를 든 느긋한 베짱이">
+          <svg viewBox="0 0 240 210" role="img" aria-label="잎사귀 의자에서 AI 안경을 쓰고 기타 치는 베짱이">
+            <path d="M64 184q45-47 128-15l20 22H58z" fill="#5cac4b" stroke="#367e42" stroke-width="5"/>
+            <g stroke="#3d6840" stroke-width="7" stroke-linecap="round" fill="none">
+              <path d="M109 139 87 168 71 176M145 140l28 20 21 3M112 100Q92 63 77 72M142 97q17-37 33-34"/>
+            </g>
+            <ellipse cx="128" cy="119" rx="43" ry="53" fill="#88c84f" stroke="#367e42" stroke-width="5"/>
+            <circle cx="129" cy="63" r="37" fill="#91d354" stroke="#367e42" stroke-width="5"/>
+            <ellipse cx="117" cy="58" rx="9" ry="12" fill="white"/><ellipse cx="142" cy="58" rx="9" ry="12" fill="white"/>
+            <circle cx="119" cy="61" r="4" fill="#25372c"/><circle cx="144" cy="61" r="4" fill="#25372c"/>
+            <g aria-label="AI 안경" stroke="#244a67" stroke-width="4" fill="rgba(119,222,255,.35)">
+              <rect x="103" y="47" width="28" height="23" rx="8"/><rect x="135" y="47" width="28" height="23" rx="8"/><path d="M131 56h4M103 54l-8-4M163 54l8-4" fill="none"/>
+            </g>
+            <path d="M159 43l5-7 3 8 8 1-7 5 1 8-6-5-7 3 3-8-5-5z" fill="#f6d55c" stroke="#c28d2d" stroke-width="2"/>
+            <path d="M120 76q10 8 19 0" stroke="#315b3a" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M102 25Q88 2 74 15M148 25Q165 1 180 15" stroke="#367e42" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <ellipse cx="164" cy="133" rx="32" ry="24" fill="#cf8544" stroke="#754b2d" stroke-width="5" transform="rotate(-22 164 133)"/>
+            <circle cx="150" cy="129" r="7" fill="#5d432a"/><path d="m184 121 42-35 5 7-42 36" fill="#9a6337" stroke="#754b2d" stroke-width="4"/>
+            <path d="m138 112 30 39M147 106l30 39M157 103l29 38" stroke="#f8e5b7" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="소개카드">
+      <div class="종이상자">
+        <h2>🐜 개미가 좋아하는 것</h2>
+        <ul class="좋아하는것"><li>🏃 운동</li><li>🎧 노래 듣기</li><li>🛋️ 쉬기</li></ul>
+      </div>
+      <div class="종이상자">
+        <h2>🦗 AI 안경 쓴 베짱이의 대답</h2>
+        <p class="대화"><strong>“개미야, 쉬는 것도 중요한 계획이야!”</strong><br>맞는 말이지… 그럼 간식 먹고 같이 쉬자! 🍪</p>
+        <p id="반응문구" class="반응" aria-live="polite">베짱이는 아직 졸린 눈을 비비는 중…</p>
+      </div>
+    </section>
+
+    <section class="놀이영역">
+      <p><strong>🎮 숲속에서 무슨 일이 일어날까?</strong><br>무대에서 커서를 움직여 개미를 데리고 다녀 봐. 베짱이도 톡 눌러 볼까?</p>
+      <div class="버튼들">
+        <button id="깨우기버튼" type="button">🐜 개미 출동!</button>
+        <button id="색상버튼" class="색상버튼" type="button">🌈 숲 색깔 바꾸기</button>
+      </div>
+    </section>
+    <p class="마지막인사">운동·노래 추천 환영! 개미와 베짱이처럼 웃으며 친해지자 🌱</p>
+  </div>
+
+  <script>
+    const 장면문구 = [
+      "베짱아, 낮잠 자는 사이 계절이 바뀌겠다!<br>슬슬 일어나 볼까? 😏",
+      "베짱아, 간식 도착!<br>…어? 벌써 일어났네? 🍪",
+      "오늘의 미션은 기지개 켜기!<br>성공하면 개미가 박수 쳐 줄게 👏",
+      "베짱아, 네가 쉬는 동안 내가 자리 맡아 뒀어.<br>이제 교대하자! 😄"
+    ];
+    const 배경색목록 = ["#bde9ef", "#d8edbd", "#ffe1a8", "#e9d9f6", "#ffd7d2"];
+    let 색인 = 0;
+    let 장면인덱스 = 0;
+    const 개미 = document.getElementById("개미캐릭터");
+    const 베짱이 = document.getElementById("베짱이캐릭터");
+
+    function 숲색바꾸기() {
+      색인 = (색인 + 1) % 배경색목록.length;
+      document.body.style.backgroundColor = 배경색목록[색인];
+    }
+
+    function 개미출동() {
+      개미.classList.add("달려");
+      베짱이.classList.add("깜짝");
+      document.getElementById("장면말").innerHTML = 장면문구[장면인덱스];
+      document.getElementById("반응문구").textContent = "베짱이: 으앗! 알았어, 일어났어! 개미도 잠깐 쉬어~";
+      장면인덱스 = (장면인덱스 + 1) % 장면문구.length;
+      window.setTimeout(() => {
+        개미.classList.remove("달려");
+        베짱이.classList.remove("깜짝");
+      }, 1100);
+    }
+
+    document.getElementById("색상버튼").addEventListener("click", 숲색바꾸기);
+    document.getElementById("깨우기버튼").addEventListener("click", 개미출동);
+
+    const 무대 = document.querySelector(".무대");
+    let 포인터움직임중 = false;
+    let 충돌중 = false;
+    let 충돌대기 = false;
+    let 충돌타이머;
+
+    무대.addEventListener("pointermove", (이벤트) => {
+      const 위치 = 무대.getBoundingClientRect();
+      const x = ((이벤트.clientX - 위치.left) / 위치.width) * 100;
+      const y = ((이벤트.clientY - 위치.top) / 위치.height) * 100;
+      const 안전한x = Math.max(2, Math.min(69, x - 13));
+      const 안전한y = Math.max(34, Math.min(69, y - 15));
+      개미.style.left = `${안전한x}%`;
+      개미.style.top = `${안전한y}%`;
+      개미.style.bottom = "auto";
+      포인터움직임중 = true;
+      가까우면툭치기();
+    });
+
+    function 가까우면툭치기() {
+      if (충돌중 || 충돌대기) return;
+      const 개미위치 = 개미.getBoundingClientRect();
+      const 베짱이위치 = 베짱이.getBoundingClientRect();
+      const 개미중심x = 개미위치.left + 개미위치.width / 2;
+      const 개미중심y = 개미위치.top + 개미위치.height / 2;
+      const 베짱이중심x = 베짱이위치.left + 베짱이위치.width / 2;
+      const 베짱이중심y = 베짱이위치.top + 베짱이위치.height / 2;
+      const 가로거리 = Math.abs(개미중심x - 베짱이중심x);
+      const 세로거리 = Math.abs(개미중심y - 베짱이중심y);
+
+      if (가로거리 < (개미위치.width + 베짱이위치.width) * 0.34 && 세로거리 < (개미위치.height + 베짱이위치.height) * 0.32) {
+        충돌중 = true;
+        충돌대기 = true;
+        개미.classList.add("때리는중");
+        베짱이.classList.remove("깜짝");
+        베짱이.classList.add("날아감");
+        const 효과글자 = document.getElementById("충돌글자");
+        효과글자.classList.remove("보임");
+        void 효과글자.offsetWidth;
+        효과글자.textContent = ["툭!", "퐁!", "앗차!"][Math.floor(Math.random() * 3)];
+        효과글자.classList.add("보임");
+        document.getElementById("장면말").innerHTML = "개미가 살짝 툭!<br>베짱이가 빙글 날아갔어! 💫";
+        document.getElementById("반응문구").textContent = "베짱이: 으아아— 빙글빙글! 괜찮아, 착지 완료! 😵‍💫";
+
+        window.clearTimeout(충돌타이머);
+        충돌타이머 = window.setTimeout(() => {
+          베짱이.classList.remove("날아감");
+          개미.classList.remove("때리는중");
+          효과글자.classList.remove("보임");
+          충돌중 = false;
+          window.setTimeout(() => { 충돌대기 = false; }, 500);
+        }, 1300);
+      }
+    }
+
+    무대.addEventListener("pointerleave", () => {
+      if (포인터움직임중) {
+        개미.style.left = "";
+        개미.style.top = "";
+        개미.style.bottom = "";
+        포인터움직임중 = false;
+      }
+    });
+
+    베짱이.addEventListener("pointerdown", (이벤트) => {
+      이벤트.stopPropagation();
+      베짱이.classList.add("깜짝");
+      document.getElementById("장면말").innerHTML = "앗, 들켰다!<br>개미야, 간식 먹으며 쉬자! 🍪";
+      document.getElementById("반응문구").textContent = "베짱이: 커서로 콕 찌르다니, 제법인데? 😲";
+      window.setTimeout(() => 베짱이.classList.remove("깜짝"), 700);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+

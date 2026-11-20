@@ -1,0 +1,52 @@
+# 비밀 정보
+.env
+.env.*
+!.env.example
+
+# 파이썬 가상환경과 캐시
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.hypothesis/
+.ipynb_checkpoints/
+.tox/
+.nox/
+
+# 빌드 및 패키지 결과물
+build/
+dist/
+*.egg-info/
+.eggs/
+wheelhouse/
+node_modules/
+
+# 로그와 임시 파일
+*.log
+logs/
+htmlcov/
+.coverage
+.coverage.*
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+~$*
+
+# IDE 및 운영체제 설정
+.vscode/
+.idea/
+.history/
+*.code-workspace
+.project
+.pydevproject
+.DS_Store
+Thumbs.db
+Desktop.ini
